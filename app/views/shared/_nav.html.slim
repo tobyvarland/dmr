@@ -6,7 +6,8 @@ nav.navbar.fixed-top.navbar-expand-md.navbar-dark.bg-dark
     .collapse.navbar-collapse id="navbarContent"
       .me-auto.mb-3.mb-md-0
         ul.navbar-nav
-          li.nav-item = link_to("Home", root_path, class: "nav-link")
+          li.nav-item = link_to("<i class=\"fas fa-home\"></i> <span>Home</span>".html_safe, root_path, class: "nav-link")
+          li.nav-item.ms-md-3 = link_to("<i class=\"fas fa-plus-square\"></i> <span>New DMR</span>".html_safe, root_path, class: "nav-link")
       .ms-auto
         ul.navbar-nav
-          li.nav-item = link_to("Sign Out", destroy_user_session_path, class: "nav-link")
+          li.nav-item = link_to("<i class=\"fas fa-times-circle\"></i> <span>Sign Out</span>".html_safe, destroy_user_session_path, class: "nav-link")

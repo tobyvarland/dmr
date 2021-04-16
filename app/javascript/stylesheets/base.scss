@@ -27,6 +27,16 @@ h1, h2, h3, h4, h5, h6, th {
   padding-top: 0.15rem;
   text-transform: uppercase;
   &:hover, &:active {
-    text-decoration: underline;
+    i, svg {
+      color: $color-varland-red !important
+    }
+    span {
+      text-decoration: underline;
+      text-decoration-color: $color-varland-red;
+      text-decoration-thickness: 0.15em;
+    }
+  }
+  i, svg {
+    margin-right: 0.25em;
   }
 }
