@@ -161,6 +161,8 @@ GEM
       omniauth (>= 1.9, < 3)
     orm_adapter (0.5.0)
     pagy (3.12.0)
+    paranoia (2.4.3)
+      activerecord (>= 4.0, < 6.2)
     public_suffix (4.0.6)
     puma (5.2.2)
       nio4r (~> 2.0)
@@ -286,6 +288,7 @@ DEPENDENCIES
   omniauth (~> 1.9)
   omniauth-google-oauth2
   pagy
+  paranoia (~> 2.2)
   puma (~> 5.0)
   pundit
   rack-mini-profiler (~> 2.0)

@@ -3,6 +3,9 @@ class ReportsController < ApplicationController
   # Callbacks.
   before_action :set_report,
                 only: %i[ show edit update destroy add_upload ]
+  
+  # Don't require login for view only.
+  skip_before_action :authenticate_user!, only: [:show, :index]
 
   def index
     Report.where(entry_finished: false).destroy_all
@@ -12,7 +15,6 @@ class ReportsController < ApplicationController
   def show
   end
 
-  # GET /reports/new
   def new
     @report = Report.new
   end
