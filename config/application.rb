@@ -11,6 +11,7 @@ module Dmr
     
     config.time_zone = 'Eastern Time (US & Canada)'
     config.active_record.default_timezone = :local
+    config.active_record.schema_format = :sql
     
   end
 end
