@@ -1,0 +1,10 @@
+/* Utilities available everywhere */
+@import "utilities/variables.scss",
+        "utilities/functions.scss",
+        "utilities/size-utilities.scss",
+        "utilities/colors.scss",
+        "utilities/flex.scss",
+        "utilities/typography.scss";
+
+/* Specific components */
+/* @import "components/header.scss"; */

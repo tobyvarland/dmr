@@ -1,0 +1,13 @@
+// Responsive grid breakpoints.
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+// Colors.
+$color-varland-red: #df151a;
+$color-uncolor: #aa9c84;

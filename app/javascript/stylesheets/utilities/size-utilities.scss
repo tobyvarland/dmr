@@ -1,0 +1,27 @@
+@each $key, $value in $grid-breakpoints {
+  @if $key == xs {
+    @for $size from 0 through 100 {
+      .w-#{$size} { width: #{$size * 1%} !important; }
+      .h-#{$size} { height: #{$size * 1%} !important; }
+      .vw-#{$size} { width: #{$size * 1vw} !important; }
+      .vh-#{$size} { height: #{$size * 1vh} !important; }
+      .start-#{$size} { left: #{$size * 1%} !important; }
+      .end-#{$size} { right: #{(100 - $size) * 1%} !important; }
+      .top-#{$size} { top: #{$size * 1%} !important; }
+      .bottom-#{$size} { bottom: #{(100 - $size) * 1%} !important; }
+    }
+  } @else {
+    @media (min-width: breakpoint($key)) {
+      @for $size from 0 through 100 {
+        .w-#{$key}-#{$size} { width: #{$size * 1%} !important; }
+        .h-#{$key}-#{$size} { height: #{$size * 1%} !important; }
+        .vw-#{$key}-#{$size} { width: #{$size * 1vw} !important; }
+        .vh-#{$key}-#{$size} { height: #{$size * 1vh} !important; }
+        .start-#{$key}-#{$size} { left: #{$size * 1%} !important; }
+        .end-#{$key}-#{$size} { right: #{(100 - $size) * 1%} !important; }
+        .top-#{$key}-#{$size} { top: #{$size * 1%} !important; }
+        .bottom-#{$key}-#{$size} { bottom: #{(100 - $size) * 1%} !important; }
+      }
+    }
+  }
+}
