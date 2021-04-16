@@ -1,0 +1,85 @@
+h1.my-3 = "DMR #{@report.dmr_number}"
+
+.row
+  .col
+
+    = form_with(model: @report, class: ["bg-light", "p-3", "border", "rounded"]) do |form|
+
+      - if @report.errors.any?
+        .alert.alert-danger
+          p.mb-1 = "#{pluralize(@report.errors.count, "error")} prohibited this DMR from being saved:"
+          ul.mb-0
+            - @report.errors.full_messages.each do |message|
+              li = message
+
+      .row
+        .col-12.col-md-6.order-1
+          .row
+            .col-12.col-md-3
+              .form-group
+                = form.label :shop_order, "S.O. #:", class: "form-label"
+                = form.number_field :shop_order, class: "form-control", disabled: true
+            .col-12.col-md-3
+              .form-group
+                = form.label :sent_on, "Date:", class: "form-label"
+                = form.date_field :sent_on, class: "form-control", required: true, autofocus: true
+            .col-12.col-md-3
+              .form-group
+                = form.label :discovery_stage, "Defect Discovered:", class: "form-label"
+                = form.select :discovery_stage, Report.discovery_stages.keys.to_a.map { |a| [discovery_label(a), a] }, {}, class: "form-select", required: true
+            .col-12.col-md-3
+              .form-group
+                = form.label :disposition, "Parts Status:", class: "form-label"
+                = form.select :disposition, Report.dispositions.keys.to_a.map { |a| [disposition_label(a), a] }, {}, class: "form-select", required: true
+          .row.mt-3
+            .col-12.col-md
+              .form-group
+                = form.label :pounds, "Pounds:", class: "form-label"
+                = form.number_field :pounds, class: "form-control", required: true, step: 0.01
+            .col-12.col-md
+              .form-group
+                = form.label :pieces, "Pieces:", class: "form-label"
+                = form.number_field :pieces, class: "form-control", required: true
+          fieldset.border.p-3.my-3.shadow-sm.rounded
+            legend.text-uncolor.fs-6.lh-1 Order Info Pulled from System i
+            .row
+              .col-12.col-md-3
+                .form-group
+                  = form.label :customer_code, "Customer Code:", class: "form-label"
+                  = form.text_field :customer_code, class: "form-control", disabled: true
+              .col-12.col-md-3
+                .form-group
+                  = form.label :process_code, "Process Code:", class: "form-label"
+                  = form.text_field :process_code, class: "form-control", disabled: true
+              .col-12.col-md-4
+                .form-group
+                  = form.label :part, "Part ID:", class: "form-label"
+                  = form.text_field :part, class: "form-control", disabled: true
+              .col-12.col-md-2
+                .form-group
+                  = form.label :sub, "Sub ID:", class: "form-label"
+                  = form.text_field :sub, class: "form-control", disabled: true
+            .row.mt-3
+              .col-12.col-md
+                .form-group
+                  = form.label :customer_name, "Customer Name:", class: "form-label"
+                  = form.text_area :customer_name, class: "form-control", disabled: true, rows: 3, value: @report.customer_name.join("\n")
+              .col-12.col-md
+                .form-group
+                  = form.label :part_name, "Part Name:", class: "form-label"
+                  = form.text_area :part_name, class: "form-control", disabled: true, rows: 3, value: @report.part_name.join("\n")
+              .col-12.col-md
+                .form-group
+                  = form.label :purchase_order, "PO Numbers:", class: "form-label"
+                  = form.text_area :purchase_order, class: "form-control", disabled: true, rows: 3, value: @report.purchase_order.join("\n")
+        .col-12.col-md-6.order-2
+          .form-group
+            = form.label :body, "Details:", class: "form-label"
+            = form.text_area :body, class: "form-control", rows: 15, required: true
+
+      .d-flex.flex-row.align-items-center.justify-content-end
+        - if @report.body.blank?
+          = link_to '<i class="fas fa-times"></i> Cancel'.html_safe, @report, method: :delete, class: ["btn", "btn-light", "btn-sm", "me-1", "vp-button"], tabindex: -1
+        - else
+          = link_to '<i class="fas fa-times"></i> Cancel'.html_safe, :back, class: ["btn", "btn-light", "btn-sm", "me-1", "vp-button"], tabindex: -1
+        = form.button '<i class="fas fa-check"></i> Save DMR'.html_safe, type: "submit", class: ["btn", "btn-primary", "vp-button"]

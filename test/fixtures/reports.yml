@@ -1,0 +1,39 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  year: 1
+  number: 1
+  shop_order: 1
+  customer_code: MyString
+  process_code: MyString
+  part: MyString
+  sub: MyString
+  sent_on: 2021-04-16
+  discovery_stage: MyString
+  disposition: MyString
+  pounds: 1.5
+  pieces: 1
+  customer_name: MyString
+  part_name: MyString
+  purchase_order: MyString
+  user: one
+  body: MyText
+
+two:
+  year: 1
+  number: 1
+  shop_order: 1
+  customer_code: MyString
+  process_code: MyString
+  part: MyString
+  sub: MyString
+  sent_on: 2021-04-16
+  discovery_stage: MyString
+  disposition: MyString
+  pounds: 1.5
+  pieces: 1
+  customer_name: MyString
+  part_name: MyString
+  purchase_order: MyString
+  user: two
+  body: MyText

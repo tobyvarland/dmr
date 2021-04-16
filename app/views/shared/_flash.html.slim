@@ -11,5 +11,5 @@
                     end
     .col-12
       .alert.alert-dismissible.fade.show.py-1.px-2.small.mt-3.mb-0 role="alert" class=("#{flash_class}")
-        = message
+        = message.html_safe
         button.btn-close.p-2 type="button" data-bs-dismiss="alert"

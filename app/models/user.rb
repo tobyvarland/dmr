@@ -6,6 +6,9 @@ class User < ApplicationRecord
           :timeoutable,
           :omniauthable, omniauth_providers: [:google_oauth2]
 
+  # Associations.
+  has_many  :reports
+
   # Scopes.
   scope :by_number, -> { order(:employee_number) }
         

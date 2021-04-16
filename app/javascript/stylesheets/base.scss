@@ -7,12 +7,24 @@ body {
     padding-top: 0;
   }
 }
-h1, h2, h3, h4, h5, h6, th {
+h1, h2, h3, h4, h5, h6 {
   font-family: GothamCondensed-Bold, sans-serif;
   font-weight: normal;
   line-height: 1;
   margin: 0;
   text-transform: uppercase;
+}
+h1 {
+  small {
+    color: $color-uncolor;
+    font-size: 70%;
+    margin-left: 0.5rem;
+  }
+}
+
+.card-header {
+  font-family: inherit !important;
+  font-weight: 700 !important;
 }
 
 .navbar-logo {
@@ -39,4 +51,36 @@ h1, h2, h3, h4, h5, h6, th {
   i, svg {
     margin-right: 0.25em;
   }
+}
+
+.vp-button {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+th {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+td {
+  vertical-align: middle;
+}
+
+.card-body, td {
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form-label {
+  font-size: 80%;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+
+legend {
+  font-size: 1.1rem;
+  font-weight: 700;
 }

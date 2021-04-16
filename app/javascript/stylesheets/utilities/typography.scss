@@ -1,0 +1,17 @@
+.text-uncolor {
+  color: $color-uncolor !important;
+}
+
+.text-varland-red,
+.text-vp-red {
+  color: $color-varland-red !important;
+}
+
+.text-small-baseline {
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+@each $weight in $weights {
+  .fw-#{$weight} { font-weight: #{$weight} !important; }
+}
