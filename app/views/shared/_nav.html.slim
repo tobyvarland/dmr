@@ -1,0 +1,12 @@
+nav.navbar.fixed-top.navbar-expand-md.navbar-dark.bg-dark
+  .container-fluid
+    = image_tag "logo/VPLogo_M_DarkBG_Duo.svg", class: "navbar-logo"
+    button.navbar-toggler type="button"  data-bs-toggle="collapse" data-bs-target="#navbarContent"
+      span.navbar-toggler-icon
+    .collapse.navbar-collapse id="navbarContent"
+      .me-auto.mb-3.mb-md-0
+        ul.navbar-nav
+          li.nav-item = link_to("Home", root_path, class: "nav-link")
+      .ms-auto
+        ul.navbar-nav
+          li.nav-item = link_to("Sign Out", destroy_user_session_path, class: "nav-link")

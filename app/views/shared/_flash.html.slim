@@ -1,0 +1,15 @@
+.flash-container.row
+  - flash.each do |message_type, message|
+    ruby:
+      flash_symbol = message_type.to_sym
+      flash_class = case flash_symbol
+                    when :notice ; "bg-primary text-white"
+                    when :alert ; "bg-warning"
+                    when :error ; "bg-danger text-white"
+                    when :success ; "bg-success text-white"
+                    else ; "bg-secondary text-white"
+                    end
+    .col-12
+      .alert.alert-dismissible.fade.show.py-1.px-2.small.mt-3.mb-0 role="alert" class=("#{flash_class}")
+        = message
+        button.btn-close.p-2 type="button" data-bs-dismiss="alert"

@@ -49,6 +49,9 @@ Rails.application.configure do
     authentication: :plain,
     enable_starttls_auto: true
   }
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  ENV['GOOGLE_OAUTH_CLIENT_ID'] = '1073916416761-omlss0tu3ndotjmngfno4rfeqqbi30sf.apps.googleusercontent.com'
+  ENV['GOOGLE_OAUTH_CLIENT_SECRET'] = 'OMNWw64a3U1hPEOsB0RytwIW'
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

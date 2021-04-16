@@ -1,0 +1,11 @@
+.d-flex.bg-secondary.text-white.justify-content-center.align-items-center.w-100.vh-100
+
+  .row.d-flex.justify-content-center.align-items-center
+
+    .bg-dark.border.border-dark.rounded.col-12.col-md-6.col-xl-4.p-4
+      = image_tag "logo/VPLogo_S_DarkBG_Duo.svg"
+      p.mt-3.small.fw-light
+        | To sign in, you must use your company email account. 
+        | Click the button below to go to a Google page 
+        | to log in. You will be redirected back after you log in.
+      = link_to("<i class=\"fab fa-google fa-fw\"></i>Sign In".html_safe, user_google_oauth2_omniauth_authorize_path, class: "d-block btn btn-varland fs-4")

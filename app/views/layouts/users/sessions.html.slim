@@ -1,15 +1,9 @@
-ruby:
-  title_parts = [content_for(:title)]
-  unless title_parts[-1] == "Varland Plating"
-    title_parts << "Varland Plating"
-  end
-
 doctype html
 html lang="en"
 
   head
 
-    title = title_parts.compact.join(' – ')
+    title Varland Plating
 
     = csrf_meta_tags
     = csp_meta_tag
@@ -21,12 +15,6 @@ html lang="en"
 
     = favicon_link_tag asset_path('icon.png')
 
-  body
-  
-    = render 'shared/nav'
+  body.no-nav
 
-    .container-fluid
-
-      = render 'shared/flash'
-
-      == yield
+    == yield

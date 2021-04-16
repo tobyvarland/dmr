@@ -1,0 +1,32 @@
+html { overflow: auto; height: 100%; }
+body {
+  height: 100%;
+  overflow: auto;
+  padding-top: $top-nav-height;
+  &.no-nav {
+    padding-top: 0;
+  }
+}
+h1, h2, h3, h4, h5, h6, th {
+  font-family: GothamCondensed-Bold, sans-serif;
+  font-weight: normal;
+  line-height: 1;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.navbar-logo {
+  height: 3rem;
+  margin-right: 1rem;
+}
+.nav-link {
+  color: #fff !important;
+  font-family: GothamCondensed-Bold, sans-serif;
+  font-size: 1.7rem;
+  padding-bottom: 0.15rem;
+  padding-top: 0.15rem;
+  text-transform: uppercase;
+  &:hover, &:active {
+    text-decoration: underline;
+  }
+}

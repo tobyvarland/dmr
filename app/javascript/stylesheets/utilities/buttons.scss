@@ -1,0 +1,16 @@
+.btn {
+  i, svg {
+    margin-right: 0.25em;
+  }
+}
+
+.btn-varland {
+  background-color: $color-varland-red;
+  border-color: $color-varland-red;
+  color: #ffffff;
+  &:hover, &:active {
+    background-color: darken($color-varland-red, 10%);
+    border-color: darken($color-varland-red, 10%);
+    color: #ffffff;
+  }
+}

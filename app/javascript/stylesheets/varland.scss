@@ -5,7 +5,11 @@
         "utilities/colors.scss",
         "utilities/flex.scss",
         "utilities/typography.scss",
-        "utilities/fonts.scss";
+        "utilities/fonts.scss",
+        "utilities/buttons.scss";
 
 /* Specific components */
 /* @import "components/header.scss"; */
+
+/* Base style definitions */
+@import "base.scss";
