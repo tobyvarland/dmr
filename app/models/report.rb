@@ -69,7 +69,63 @@ class Report < ApplicationRecord
 
   # Scopes.
   default_scope -> { kept }
-  scope :reverse_chronological, -> { order(year: :desc, number: :desc) }
+  scope :sorted_by, ->(value) {
+    return if value.blank?
+    case value
+    when 'shop_order'
+      order(:shop_order)
+    when 'part_spec'
+      order(:customer_code, :process_code, :part, :sub)
+    when 'newest'
+      order(year: :desc, number: :desc)
+    when 'oldest'
+      order(:year, :number)
+    end
+  }
+  scope :containing, ->(value) {
+    return if value.blank?
+    where("body LIKE (?)", "%#{value}%")
+  }
+  scope :entered_by, ->(value) {
+    return if value.blank?
+    where(user_id: value)
+  }
+  scope :with_disposition, ->(value) {
+    return if value.blank?
+    where(disposition: value)
+  }
+  scope :with_discovery, ->(value) {
+    return if value.blank?
+    where(discovery_stage: value)
+  }
+  scope :with_shop_order, ->(value) {
+    return if value.blank?
+    where(shop_order: value)
+  }
+  scope :with_part, ->(value) {
+    return if value.blank?
+    where(part: value)
+  }
+  scope :with_process, ->(value) {
+    return if value.blank?
+    where(process_code: value)
+  }
+  scope :with_customer, ->(value) {
+    return if value.blank?
+    where(customer_code: value)
+  }
+  scope :on_or_after, ->(value) {
+    return if value.blank?
+    where("sent_on >= ?", value)
+  }
+  scope :on_or_before,  ->(value) {
+    return if value.blank?
+    where("sent_on <= ?", value)
+  }
+  scope :with_year, ->(value) {
+    return if value.blank?
+    where(year: value)
+  }
 
   # Instance methods.
   
@@ -102,6 +158,190 @@ class Report < ApplicationRecord
     self.year = year
     last_dmr = Report.with_discarded.where(year: year).order(number: :desc).first
     self.number = last_dmr.blank? ? 1 : last_dmr.number + 1
+  end
+
+  # Class methods.
+
+  # Destroys any DMRs that didn't finish the entry process.
+  def self.destroy_unfinished
+    Report.with_discarded.where(entry_finished: false).destroy_all
+  end
+
+  # Get filter options for year.
+  def self.year_options(filters)
+    return [filters[:with_year]] unless filters[:with_year].blank?
+    return Report
+            .on_or_before(filters[:on_or_before])
+            .on_or_after(filters[:on_or_after])
+            .with_year(filters[:with_year])
+            .with_customer(filters[:with_customer])
+            .with_process(filters[:with_process])
+            .with_part(filters[:with_part])
+            .with_shop_order(filters[:with_shop_order])
+            .with_discovery(filters[:with_discovery])
+            .with_disposition(filters[:with_disposition])
+            .entered_by(filters[:entered_by])
+            .containing(filters[:containing])
+            .distinct.pluck(:year).sort
+  end
+
+  # Get filter options for customer.
+  def self.customer_options(filters)
+    return [filters[:with_customer]] unless filters[:with_customer].blank?
+    return Report
+            .on_or_before(filters[:on_or_before])
+            .on_or_after(filters[:on_or_after])
+            .with_year(filters[:with_year])
+            .with_customer(filters[:with_customer])
+            .with_process(filters[:with_process])
+            .with_part(filters[:with_part])
+            .with_shop_order(filters[:with_shop_order])
+            .with_discovery(filters[:with_discovery])
+            .with_disposition(filters[:with_disposition])
+            .entered_by(filters[:entered_by])
+            .containing(filters[:containing])
+            .distinct.pluck(:customer_code).sort
+  end
+
+  # Get filter options for process.
+  def self.process_options(filters)
+    return [filters[:with_process]] unless filters[:with_process].blank?
+    return Report
+            .on_or_before(filters[:on_or_before])
+            .on_or_after(filters[:on_or_after])
+            .with_year(filters[:with_year])
+            .with_customer(filters[:with_customer])
+            .with_process(filters[:with_process])
+            .with_part(filters[:with_part])
+            .with_shop_order(filters[:with_shop_order])
+            .with_discovery(filters[:with_discovery])
+            .with_disposition(filters[:with_disposition])
+            .entered_by(filters[:entered_by])
+            .containing(filters[:containing])
+            .distinct.pluck(:process_code).sort
+  end
+
+  # Get filter options for part.
+  def self.part_options(filters)
+    return [filters[:with_part]] unless filters[:with_part].blank?
+    return Report
+            .on_or_before(filters[:on_or_before])
+            .on_or_after(filters[:on_or_after])
+            .with_year(filters[:with_year])
+            .with_customer(filters[:with_customer])
+            .with_process(filters[:with_process])
+            .with_part(filters[:with_part])
+            .with_shop_order(filters[:with_shop_order])
+            .with_discovery(filters[:with_discovery])
+            .with_disposition(filters[:with_disposition])
+            .entered_by(filters[:entered_by])
+            .containing(filters[:containing])
+            .distinct.pluck(:part).sort
+  end
+
+  # Get filter options for shop order.
+  def self.shop_order_options(filters)
+    return [filters[:with_shop_order]] unless filters[:with_shop_order].blank?
+    return Report
+            .on_or_before(filters[:on_or_before])
+            .on_or_after(filters[:on_or_after])
+            .with_year(filters[:with_year])
+            .with_customer(filters[:with_customer])
+            .with_process(filters[:with_process])
+            .with_part(filters[:with_part])
+            .with_shop_order(filters[:with_shop_order])
+            .with_discovery(filters[:with_discovery])
+            .with_disposition(filters[:with_disposition])
+            .entered_by(filters[:entered_by])
+            .containing(filters[:containing])
+            .distinct.pluck(:shop_order).sort
+  end
+
+  # Get filter options for discovery stage.
+  def self.discovery_options(filters)
+    raw = []
+    if filters[:with_discovery].blank?
+      raw = Report
+              .on_or_before(filters[:on_or_before])
+              .on_or_after(filters[:on_or_after])
+              .with_year(filters[:with_year])
+              .with_customer(filters[:with_customer])
+              .with_process(filters[:with_process])
+              .with_part(filters[:with_part])
+              .with_shop_order(filters[:with_shop_order])
+              .with_discovery(filters[:with_discovery])
+              .with_disposition(filters[:with_disposition])
+              .entered_by(filters[:entered_by])
+              .containing(filters[:containing])
+              .distinct.pluck(:discovery_stage).sort
+    else
+      raw = [filters[:with_discovery]]
+    end
+    options = []
+    raw.each do |raw_value|
+      label = case raw_value
+              when "before" then "Before Processing"
+              when "during" then "During Processing"
+              when "after" then "After Processing"
+              end
+      options << [label, raw_value]
+    end
+    return options
+  end
+
+  # Get filter options for disposition.
+  def self.disposition_options(filters)
+    raw = []
+    if filters[:with_disposition].blank?
+      raw = Report
+              .on_or_before(filters[:on_or_before])
+              .on_or_after(filters[:on_or_after])
+              .with_year(filters[:with_year])
+              .with_customer(filters[:with_customer])
+              .with_process(filters[:with_process])
+              .with_part(filters[:with_part])
+              .with_shop_order(filters[:with_shop_order])
+              .with_discovery(filters[:with_discovery])
+              .with_disposition(filters[:with_disposition])
+              .entered_by(filters[:entered_by])
+              .containing(filters[:containing])
+              .distinct.pluck(:disposition).sort
+    else
+      raw = [filters[:with_disposition]]
+    end
+    options = []
+    raw.each do |raw_value|
+      label = case raw_value
+              when "unprocessed" then "Unprocessed"
+              when "partial" then "Partially Processed"
+              when "complete" then "Completely Processed"
+              end
+      options << [label, raw_value]
+    end
+    return options
+  end
+
+  # Get filter options for user.
+  def self.user_options(filters)
+    raw = []
+    if filters[:entered_by].blank?
+      raw = Report
+              .on_or_before(filters[:on_or_before])
+              .on_or_after(filters[:on_or_after])
+              .with_year(filters[:with_year])
+              .with_customer(filters[:with_customer])
+              .with_process(filters[:with_process])
+              .with_part(filters[:with_part])
+              .with_shop_order(filters[:with_shop_order])
+              .with_discovery(filters[:with_discovery])
+              .with_disposition(filters[:with_disposition])
+              .entered_by(filters[:entered_by])
+              .containing(filters[:containing])
+              .distinct.pluck(:user_id).sort
+    else
+      raw = [filters[:entered_by]]
+    end
+    return User.where("id IN (?)", raw).order(:employee_number).map {|u| ["#{u.employee_number} - #{u.name}", u.id]}
   end
 
 end

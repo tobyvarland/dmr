@@ -111,3 +111,14 @@ legend {
   margin-top: 0.1rem;
   text-align: center;
 }
+
+.filter-expander {
+  color: #000000;
+  font-size: 80%;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  &:hover, &:active {
+    color: $color-varland-red
+  }
+}

@@ -1,0 +1,52 @@
+ruby:
+  active_filters = @filters.select { |_, value| !value.blank? }.size
+
+.bg-light.border.rounded.mb-3.p-2.small
+  a.filter-expander id="report-filter-toggler" data-bs-toggle="collapse" href="#report-filters"
+    - if active_filters == 0
+      i.fas.fa-fw.fa-chevron-right
+    - else
+      i.fas.fa-fw.fa-chevron-down
+    |&nbsp;Filters
+  .collapse class="#{active_filters == 0 ? "" : "show"}" id="report-filters"
+    = form_with method: 'get' do |f|
+      .row.mt-2
+        .col-12.col-md-3
+          label.form-label for="with_shop_order" Shop Order:
+          = f.select "with_shop_order", options_for_select(Report.shop_order_options(@filters), params[:with_shop_order]), { include_blank: true }, class: "form-select form-select-sm", onchange: 'this.form.submit();'
+        .col-12.col-md-3
+          label.form-label for="with_customer" Customer:
+          = f.select "with_customer", options_for_select(Report.customer_options(@filters), params[:with_customer]), { include_blank: true }, class: "form-select form-select-sm", onchange: 'this.form.submit();'
+        .col-12.col-md-3
+          label.form-label for="with_process" Process:
+          = f.select "with_process", options_for_select(Report.process_options(@filters), params[:with_process]), { include_blank: true }, class: "form-select form-select-sm", onchange: 'this.form.submit();'
+        .col-12.col-md-3
+          label.form-label for="with_part" Part:
+          = f.select "with_part", options_for_select(Report.part_options(@filters), params[:with_part]), { include_blank: true }, class: "form-select form-select-sm", onchange: 'this.form.submit();'
+      .row.mt-2
+        .col-12.col-md-3
+          label.form-label for="with_year" Year:
+          = f.select "with_year", options_for_select(Report.year_options(@filters), params[:with_year]), { include_blank: true }, class: "form-select form-select-sm", onchange: 'this.form.submit();'
+        .col-12.col-md-3
+          label.form-label for="entered_by" Entered By:
+          = f.select "entered_by", options_for_select(Report.user_options(@filters), params[:entered_by]), { include_blank: true }, class: "form-select form-select-sm", onchange: 'this.form.submit();'
+        .col-12.col-md-3
+          label.form-label for="with_discovery" Discovery:
+          = f.select "with_discovery", options_for_select(Report.discovery_options(@filters), params[:with_discovery]), { include_blank: true }, class: "form-select form-select-sm", onchange: 'this.form.submit();'
+        .col-12.col-md-3
+          label.form-label for="with_disposition" Parts Status:
+          = f.select "with_disposition", options_for_select(Report.disposition_options(@filters), params[:with_disposition]), { include_blank: true }, class: "form-select form-select-sm", onchange: 'this.form.submit();'
+      .row.mt-2
+        .col-12.col-md-3
+          label.form-label for="on_or_after" Start Date:
+          = f.date_field "on_or_after", class: "form-control form-control-sm", value: params[:on_or_after], onchange: 'this.form.submit();'
+        .col-12.col-md-3
+          label.form-label for="on_or_before" End Date:
+          = f.date_field "on_or_before", class: "form-control form-control-sm", value: params[:on_or_before], onchange: 'this.form.submit();'
+        .col-12.col-md-3
+          label.form-label for="sorted_by" Sorted By:
+          = f.select "sorted_by", options_for_select([["Shop Order", "shop_order"], ["Part Spec", "part_spec"], ["Oldest First", "oldest"], ["Newest First", "newest"]], params[:sorted_by]), {}, class: "form-select form-select-sm", onchange: 'this.form.submit();'
+      .row.mt-2
+        .col-12
+          label.form-label for="containing" Search:
+          = f.text_field "containing", class: "form-control form-control-sm", value: params[:containing], onchange: 'this.form.submit();'

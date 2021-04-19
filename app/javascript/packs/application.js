@@ -28,4 +28,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
   tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
   })
+
+  $("#report-filters").on("show.bs.collapse", function() {
+    $("#report-filter-toggler").html('<i class="fas fa-fw fa-chevron-down"></i> Filters');
+  });
+  $("#report-filters").on("hide.bs.collapse", function() {
+    $("#report-filter-toggler").html('<i class="fas fa-fw fa-chevron-right"></i> Filters');
+  });
 })

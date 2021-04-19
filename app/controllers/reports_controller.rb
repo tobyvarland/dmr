@@ -1,5 +1,19 @@
 class ReportsController < ApplicationController
 
+  # Define filters available for has_scope gem.
+  has_scope :sorted_by, only: :index
+  has_scope :on_or_before, only: :index
+  has_scope :on_or_after, only: :index
+  has_scope :with_year, only: :index
+  has_scope :with_customer, only: :index
+  has_scope :with_process, only: :index
+  has_scope :with_part, only: :index
+  has_scope :with_shop_order, only: :index
+  has_scope :with_discovery, only: :index
+  has_scope :with_disposition, only: :index
+  has_scope :entered_by, only: :index
+  has_scope :containing, only: :index
+  
   # Callbacks.
   before_action :set_report,
                 only: %i[ show edit update destroy add_upload ]
@@ -8,11 +22,24 @@ class ReportsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:show, :index]
 
   def index
-    Report.with_discarded.where(entry_finished: false).destroy_all
+    params[:sorted_by] = 'newest' if params[:sorted_by].blank?
+    @filters = {}
+    @filters[:on_or_before] = params.fetch(:on_or_before, nil)
+    @filters[:on_or_after] = params.fetch(:on_or_after, nil)
+    @filters[:with_year] = params.fetch(:with_year, nil)
+    @filters[:with_customer] = params.fetch(:with_customer, nil)
+    @filters[:with_process] = params.fetch(:with_process, nil)
+    @filters[:with_part] = params.fetch(:with_part, nil)
+    @filters[:with_shop_order] = params.fetch(:with_shop_order, nil)
+    @filters[:with_discovery] = params.fetch(:with_discovery, nil)
+    @filters[:with_disposition] = params.fetch(:with_disposition, nil)
+    @filters[:entered_by] = params.fetch(:entered_by, nil)
+    @filters[:containing] = params.fetch(:containing, nil)
+    Report.destroy_unfinished
     begin
-      @pagy, @reports = pagy(Report.includes(:user).reverse_chronological, items: 50)
+      @pagy, @reports = pagy(apply_scopes(Report.includes(:user).all), items: 50)
     rescue
-      @pagy, @reports = pagy(Report.includes(:user).reverse_chronological, items: 50, page: 1)
+      @pagy, @reports = pagy(apply_scopes(Report.includes(:user).all), items: 50, page: 1)
     end
   end
 

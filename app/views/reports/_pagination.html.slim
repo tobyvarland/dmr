@@ -1,8 +1,8 @@
 ruby:
   link = pagy_link_proc(@pagy, 'class="btn btn-warning"')
 
-- unless @pagy.pages == 1
-  .mt-3.mt-md-0
+.mt-3.mt-md-0
+  - unless @pagy.pages == 1
     nav
       .btn-group.btn-group-sm role="group"
         - if @pagy.prev
@@ -26,4 +26,4 @@ ruby:
             i.fas.fa-angle-right
           button.btn.btn-warning disabled="disabled"
             i.fas.fa-angle-double-right
-    .pagination-description = "DMRs #{number_with_delimiter @pagy.from} &ndash; #{number_with_delimiter @pagy.to} of #{number_with_delimiter @pagy.count}".html_safe
+  .pagination-description = "DMRs #{number_with_delimiter @pagy.from} &ndash; #{number_with_delimiter @pagy.to} of #{number_with_delimiter @pagy.count}".html_safe
