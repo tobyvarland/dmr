@@ -37,9 +37,9 @@ class ReportsController < ApplicationController
     @filters[:containing] = params.fetch(:containing, nil)
     Report.destroy_unfinished
     begin
-      @pagy, @reports = pagy(apply_scopes(Report.includes(:user).all), items: 50)
+      @pagy, @reports = pagy(apply_scopes(Report.includes(:user).all), items: 20)
     rescue
-      @pagy, @reports = pagy(apply_scopes(Report.includes(:user).all), items: 50, page: 1)
+      @pagy, @reports = pagy(apply_scopes(Report.includes(:user).all), items: 20, page: 1)
     end
   end
 
