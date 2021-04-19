@@ -9,7 +9,11 @@ class ReportsController < ApplicationController
 
   def index
     Report.where(entry_finished: false).destroy_all
-    @reports = Report.includes(:user).all
+    begin
+      @pagy, @reports = pagy(Report.includes(:user).all, items: 50)
+    rescue
+      @pagy, @reports = pagy(Report.includes(:user).all, items: 50, page: 1)
+    end
   end
 
   def show

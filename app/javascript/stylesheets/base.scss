@@ -84,3 +84,19 @@ legend {
   font-size: 1.1rem;
   font-weight: 700;
 }
+
+.pagination-input,
+.pagination-description {
+  font-size: 80%;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  input {
+    padding: 0.25rem;
+  }
+}
+
+.pagination-description {
+  margin-top: 0.1rem;
+  text-align: center;
+}
