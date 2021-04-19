@@ -13,6 +13,11 @@ class ReportPolicy < ApplicationPolicy
             "kevin.marsh@varland.com"]
   end
 
+  def it_admin_users
+    return ["toby.varland@varland.com",
+            "mark.strader@varland.com"]
+  end
+
   def index?
     true
   end
@@ -23,7 +28,7 @@ class ReportPolicy < ApplicationPolicy
 
   def create?
     return false unless user
-    authorized_users = self.qc_users + self.sales_users
+    authorized_users = self.qc_users + self.sales_users + self.it_admin_users
     return authorized_users.include?(user.email)
   end
 
@@ -33,7 +38,7 @@ class ReportPolicy < ApplicationPolicy
 
   def update?
     return false unless user
-    authorized_users = self.qc_users + self.sales_users
+    authorized_users = self.qc_users + self.sales_users + self.it_admin_users
     return authorized_users.include?(user.email)
   end
 
@@ -43,19 +48,19 @@ class ReportPolicy < ApplicationPolicy
 
   def destroy?
     return false unless user
-    authorized_users = self.sales_users
+    authorized_users = self.sales_users + self.it_admin_users
     return authorized_users.include?(user.email)
   end
 
   def remove_upload?
     return false unless user
-    authorized_users = self.qc_users + self.sales_users
+    authorized_users = self.qc_users + self.sales_users + self.it_admin_users
     return authorized_users.include?(user.email)
   end
 
   def add_upload?
     return false unless user
-    authorized_users = self.qc_users + self.sales_users
+    authorized_users = self.qc_users + self.sales_users + self.it_admin_users
     return authorized_users.include?(user.email)
   end
 
