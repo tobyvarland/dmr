@@ -10,9 +10,9 @@ class ReportsController < ApplicationController
   def index
     Report.with_discarded.where(entry_finished: false).destroy_all
     begin
-      @pagy, @reports = pagy(Report.includes(:user).all, items: 50)
+      @pagy, @reports = pagy(Report.includes(:user).reverse_chronological, items: 50)
     rescue
-      @pagy, @reports = pagy(Report.includes(:user).all, items: 50, page: 1)
+      @pagy, @reports = pagy(Report.includes(:user).reverse_chronological, items: 50, page: 1)
     end
   end
 

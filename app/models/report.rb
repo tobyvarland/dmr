@@ -69,6 +69,7 @@ class Report < ApplicationRecord
 
   # Scopes.
   default_scope -> { kept }
+  scope :reverse_chronological, -> { order(year: :desc, number: :desc) }
 
   # Instance methods.
   
