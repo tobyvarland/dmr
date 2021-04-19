@@ -1,31 +1,62 @@
 class ReportPolicy < ApplicationPolicy
 
-  def show?
-    return true
+  def qc_users
+    return ["greg.turner@varland.com",
+            "tim.hudson@varland.com",
+            "mike.mitchell@varland.com"]
   end
 
-  def destroy?
-    user && user.employee_number >= 900
+  def sales_users
+    return ["john.mcguire@varland.com",
+            "chris.terry@varland.com",
+            "art.mink@varland.com",
+            "kevin.marsh@varland.com"]
+  end
+
+  def index?
+    true
+  end
+
+  def show?
+    true
   end
 
   def create?
-    user && user.employee_number >= 900
+    return false unless user
+    authorized_users = self.qc_users + self.sales_users
+    return authorized_users.include?(user.email)
   end
 
-  def edit?
-    user && user.employee_number != 937
+  def new?
+    create?
   end
 
   def update?
-    user && user.employee_number >= 900
+    return false unless user
+    authorized_users = self.qc_users + self.sales_users
+    return authorized_users.include?(user.email)
+  end
+
+  def edit?
+    update?
+  end
+
+  def destroy?
+    return false unless user
+    authorized_users = self.sales_users
+    return authorized_users.include?(user.email)
   end
 
   def remove_upload?
-    user && user.employee_number >= 900
+    return false unless user
+    authorized_users = self.qc_users + self.sales_users
+    return authorized_users.include?(user.email)
   end
 
   def add_upload?
-    user && user.employee_number >= 900
+    return false unless user
+    authorized_users = self.qc_users + self.sales_users
+    return authorized_users.include?(user.email)
   end
 
 end

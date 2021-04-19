@@ -8,7 +8,7 @@ class ReportsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:show, :index]
 
   def index
-    Report.where(entry_finished: false).destroy_all
+    Report.with_discarded.where(entry_finished: false).destroy_all
     begin
       @pagy, @reports = pagy(Report.includes(:user).all, items: 50)
     rescue
@@ -18,6 +18,34 @@ class ReportsController < ApplicationController
 
   def show
     authorize @report
+    respond_to do |format|
+      format.html { }
+      format.pdf {
+        dmr_pdf = ReportPdf.new(@report)
+        count_pdf_attachments = 0
+        files_to_combine = []
+        @report.uploads.each do |file|
+          next unless file.content_type == 'application/pdf'
+          count_pdf_attachments += 1
+          files_to_combine << ActiveStorage::Blob.service.path_for(file.key)
+        end
+        if count_pdf_attachments == 0
+          send_data(dmr_pdf.render,
+                    filename: "#{@report.dmr_number}.pdf",
+                    type: 'application/pdf',
+                    disposition: 'inline')
+        else
+          combined = CombinePDF.parse(dmr_pdf.render)
+          files_to_combine.each do |path|
+            combined << CombinePDF.load(path)
+          end
+          send_data(combined.to_pdf,
+                    filename: "#{@report.dmr_number}.pdf",
+                    type: 'application/pdf',
+                    disposition: 'inline')
+        end
+      }
+    end
   end
 
   def new
