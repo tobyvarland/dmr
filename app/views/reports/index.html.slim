@@ -27,7 +27,7 @@ ruby:
             td.text-center.text-nowrap = report.dmr_number
             td.text-center.text-nowrap = report.shop_order
             td.text-nowrap = report.part_spec.join(" <small class=\"text-uncolor\">/</small> ").html_safe
-            td = simple_format(truncate(report.body, length: 80, separator: ' '))
+            td = simple_format(truncate(report.body.split("\n\n")[0], length: 80, separator: ' '))
             td.text-nowrap = report.user.name
             td.text-center.text-nowrap
               = link_to '<i class="fas fa-eye"></i> Details'.html_safe, report, class: ["btn", "btn-sm", "btn-primary", "vp-button"]
