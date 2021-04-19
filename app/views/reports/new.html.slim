@@ -12,5 +12,5 @@ h1.my-3 New DMR
         = form.number_field :shop_order, class: "form-control", autofocus: true, required: true
       
       .d-flex.flex-row.align-items-center.justify-content-end
-        = link_to '<i class="fas fa-times"></i> Cancel'.html_safe, reports_url, class: ["btn", "btn-light", "btn-sm", "me-1", "vp-button"]
+        = link_to '<i class="fas fa-times"></i> Cancel'.html_safe, root_url, class: ["btn", "btn-light", "btn-sm", "me-1", "vp-button"]
         = form.button '<i class="fas fa-check"></i> Create DMR'.html_safe, type: "submit", class: ["btn", "btn-primary", "vp-button"]

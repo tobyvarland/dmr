@@ -63,7 +63,7 @@ class ReportsController < ApplicationController
     if @report.save
       redirect_to edit_report_path(@report)
     else
-      redirect_to reports_url, alert: "Could not create DMR. Double-check the shop order number and try again."
+      redirect_to root_url, alert: "Could not create DMR. Double-check the shop order number and try again."
     end
   end
 
@@ -79,7 +79,7 @@ class ReportsController < ApplicationController
   def destroy
     authorize @report
     @report.discard
-    redirect_to reports_url
+    redirect_to root_url
   end
 
   def remove_upload

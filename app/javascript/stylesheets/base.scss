@@ -31,7 +31,8 @@ h1 {
   height: 3rem;
   margin-right: 1rem;
 }
-.nav-link {
+.nav-link,
+.navbar-text {
   color: #fff !important;
   font-family: GothamCondensed-Bold, sans-serif;
   font-size: 1.7rem;
@@ -50,6 +51,16 @@ h1 {
   }
   i, svg {
     margin-right: 0.25em;
+  }
+}
+.navbar-text {
+  i, svg {
+    color: $color-varland-red !important
+  }
+  span {
+    text-decoration: underline;
+    text-decoration-color: $color-varland-red;
+    text-decoration-thickness: 0.15em;
   }
 }
 

@@ -4,7 +4,7 @@ ruby:
 .d-md-flex.flex-row.align-items-center.justify-content-between.my-3
   h1 = "DMR #{@report.dmr_number}"
   .mt-2.mt-md-0
-    = link_to '<i class="fas fa-list-alt"></i> All DMRs'.html_safe, reports_url, class: ["btn", "btn-sm", "btn-primary", "vp-button"]
+    = link_to '<i class="fas fa-list-alt"></i> All DMRs'.html_safe, root_url, class: ["btn", "btn-sm", "btn-primary", "vp-button"]
     - if policy(@report).update?
       = link_to '<i class="fas fa-pencil-alt"></i> Edit'.html_safe, edit_report_path(@report), class: ["btn", "btn-sm", "btn-primary", "vp-button", "ms-1"]
     = link_to '<i class="text-varland-red far fa-file-pdf"></i> PDF'.html_safe, report_path(@report, format: :pdf), class: ["btn", "btn-sm", "btn-dark", "vp-button", "ms-1"], target: "_blank"
