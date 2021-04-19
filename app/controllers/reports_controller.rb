@@ -50,7 +50,7 @@ class ReportsController < ApplicationController
 
   def destroy
     authorize @report
-    @report.destroy
+    @report.discard
     redirect_to reports_url
   end
 

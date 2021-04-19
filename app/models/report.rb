@@ -1,7 +1,8 @@
 class Report < ApplicationRecord
 
   # Soft deletes.
-  acts_as_paranoid
+  include Discard::Model
+  self.discard_column = :deleted_at
 
   # Allow uploads.
   has_many_attached :uploads
@@ -66,14 +67,17 @@ class Report < ApplicationRecord
   before_validation :set_year_and_number,
                     on: :create
 
+  # Scopes.
+  default_scope -> { kept }
+
   # Instance methods.
 
   # Overridden destroy method. Sets deleted at flag but does not destroy record.
   # Needed to preserve uploads when report soft-deleted.
-  def destroy
-    self.update_attribute(:deleted_at, DateTime.current)
-    return true
-  end
+  # def destroy
+  #   self.update_attribute(:deleted_at, DateTime.current)
+  #   return true
+  # end
   
   # Sets entry finished flag before an update.
   def set_entry_finished
