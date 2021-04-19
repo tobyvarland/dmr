@@ -13,17 +13,21 @@ class ReportsController < ApplicationController
   end
 
   def show
+    authorize @report
   end
 
   def new
     @report = Report.new
+    authorize @report
   end
 
   def edit
+    authorize @report
   end
 
   def create
     @report = Report.new(report_params)
+    authorize @report
     if @report.save
       redirect_to edit_report_path(@report)
     else
@@ -32,6 +36,7 @@ class ReportsController < ApplicationController
   end
 
   def update
+    authorize @report
     if @report.update(report_params)
       redirect_to @report
     else
@@ -40,17 +45,20 @@ class ReportsController < ApplicationController
   end
 
   def destroy
+    authorize @report
     @report.destroy
     redirect_to reports_url
   end
 
   def remove_upload
     upload = ActiveStorage::Attachment.find(params[:id])
+    authorize upload.record
     upload.purge_later
     redirect_to(report_path(upload.record))
   end
 
   def add_upload
+    authorize @report
     @report.uploads.attach(params[:uploads])
     redirect_to(@report)
   end
