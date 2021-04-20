@@ -38,7 +38,7 @@ module ApplicationHelper
     end
     header = content_tag(:h6, title, class: ["card-header"])
     list = content_tag(:ul, list_items.join.html_safe, class: ["list-group", "list-group-flush"])
-    content_tag(:div, header + list, class: ["card", "bg-light", "mb-3"])
+    content_tag(:div, header + list, class: ["card", "bg-light", "mt-3"])
   end
 
   # Return options for given field for collection of reports.
