@@ -1,0 +1,29 @@
+.col-12.mt-3
+  - if attachment.file.variable?
+    = link_to(image_tag(attachment.file.variant(resize: "1000x1000", auto_orient: true), class: ["img-fluid"]), rails_blob_path(attachment.file, disposition: :inline), target: "_blank")
+    .fw-bold = attachment.name
+    .fst-italic.small = attachment.description || '<span class="text-muted">(no description entered)</span>'.html_safe
+    - if policy(attachment).edit? && allow_editing
+      = link_to('<i class="fas fa-pencil-alt"></i> Edit'.html_safe, edit_attachment_path(attachment), class: ["btn", "btn-sm", "btn-primary", "text-uppercase", "fw-bold", "ms-0", "mb-0", "mt-2", "me-2"])
+    - if policy(attachment).destroy? && allow_editing
+      = link_to('<i class="fas fa-times-circle"></i> Remove'.html_safe, attachment, method: :delete, data: { confirm: 'Are you sure you want to remove this attachment?' }, class: ["btn", "btn-sm", "btn-danger", "text-uppercase", "fw-bold", "ms-0", "mb-0", "mt-2", "me-2"])
+  - elsif attachment.file.previewable?
+    = link_to(image_tag(attachment.file.preview(resize: "1000x1000"), class: ["img-fluid"]), rails_blob_path(attachment.file, disposition: :inline), target: "_blank")
+    .fw-bold = attachment.name
+    .fst-italic.small = attachment.description || '<span class="text-muted">(no description entered)</span>'.html_safe
+    - if policy(attachment).edit? && allow_editing
+      = link_to('<i class="fas fa-pencil-alt"></i> Edit'.html_safe, edit_attachment_path(attachment), class: ["btn", "btn-sm", "btn-primary", "text-uppercase", "fw-bold", "ms-0", "mb-0", "mt-2", "me-2"])
+    - if policy(attachment).destroy? && allow_editing
+      = link_to('<i class="fas fa-times-circle"></i> Remove'.html_safe, attachment, method: :delete, data: { confirm: 'Are you sure you want to remove this attachment?' }, class: ["btn", "btn-sm", "btn-danger", "text-uppercase", "fw-bold", "ms-0", "mb-0", "mt-2", "me-2"])
+  - elsif attachment.file.image?
+    = link_to(image_tag(attachment.file, class: ["img-fluid"]), attachment.file, target: "_blank")
+    .fw-bold = attachment.name
+    .fst-italic.small = attachment.description || '<span class="text-muted">(no description entered)</span>'.html_safe
+    - if policy(attachment).edit? && allow_editing
+      = link_to('<i class="fas fa-pencil-alt"></i> Edit'.html_safe, edit_attachment_path(attachment), class: ["btn", "btn-sm", "btn-primary", "text-uppercase", "fw-bold", "ms-0", "mb-0", "mt-2", "me-2"])
+    - if policy(attachment).destroy? && allow_editing
+      = link_to('<i class="fas fa-times-circle"></i> Remove'.html_safe, attachment, method: :delete, data: { confirm: 'Are you sure you want to remove this attachment?' }, class: ["btn", "btn-sm", "btn-danger", "text-uppercase", "fw-bold", "ms-0", "mb-0", "mt-2", "me-2"])
+  - else
+    = link_to(attachment.file.filename, rails_blob_path(attachment.file, disposition: :inline), target: "_blank", class: ["d-block", "fw-bold"])
+    - if policy(attachment).destroy? && allow_editing
+      = link_to('<i class="fas fa-times-circle"></i> Remove'.html_safe, attachment, method: :delete, data: { confirm: 'Are you sure you want to remove this attachment?' }, class: ["btn", "btn-sm", "btn-danger", "text-uppercase", "fw-bold", "ms-0", "mb-0", "mt-2", "me-2"])

@@ -26,6 +26,7 @@ class Report < ApplicationRecord
 
   # Associations.
   belongs_to  :user
+  has_many    :attachments
 
   # Validations.
   validates :year,

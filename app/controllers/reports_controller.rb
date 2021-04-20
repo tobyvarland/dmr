@@ -106,16 +106,13 @@ class ReportsController < ApplicationController
     redirect_to root_url
   end
 
-  def remove_upload
-    upload = ActiveStorage::Attachment.find(params[:id])
-    authorize upload.record
-    upload.purge_later
-    redirect_to(report_path(upload.record))
-  end
-
   def add_upload
     authorize @report
-    @report.uploads.attach(params[:uploads])
+    params[:uploads].each do |upload|
+      attachment = @report.attachments.new
+      attachment.file = upload
+      attachment.save
+    end
     redirect_to(@report)
   end
 

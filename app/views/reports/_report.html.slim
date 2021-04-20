@@ -1,33 +1,19 @@
-.row
-  - if allow_editing || report.uploads.length > 0
-    .col-12.col-md-3.order-3
+.row.mb-3
+  - if allow_editing || report.attachments.length > 0
+    .col-12.col-md-2.order-3
       .card.bg-light.mt-3
         h6.card-header Attachments
         - if policy(report).add_upload? && allow_editing
           .card-body.p-0
             = render 'attachment_form'
-        - unless report.uploads.count == 0
+        - unless report.attachments.count == 0
           .card-body.bg-white.pt-0
             .row
-              - report.uploads.each do |upload|
-                .col-12.col-md-6.mt-3
-                  - if upload.variable?
-                    = link_to(image_tag(upload.variant(resize: "1000x1000", auto_orient: true), class: ["img-fluid"]), rails_blob_path(upload, disposition: :inline), target: "_blank")
-                    - if policy(report).remove_upload? && allow_editing
-                      = link_to('<i class="fas fa-times-circle"></i> Remove'.html_safe, remove_upload_report_url(upload), method: :delete, data: { confirm: 'Are you sure you want to remove this attachment?' }, class: ["btn", "btn-sm", "btn-danger", "text-uppercase", "font-weight-bold", "mx-0", "mb-0", "mt-2"])
-                  - elsif upload.previewable?
-                    = link_to(image_tag(upload.preview(resize: "1000x1000"), class: ["img-fluid"]), rails_blob_path(upload, disposition: :inline), target: "_blank")
-                    - if policy(report).remove_upload? && allow_editing
-                      = link_to('<i class="fas fa-times-circle"></i> Remove'.html_safe, remove_upload_report_url(upload), method: :delete, data: { confirm: 'Are you sure you want to remove this attachment?' }, class: ["btn", "btn-sm", "btn-danger", "text-uppercase", "font-weight-bold", "mx-0", "mb-0", "mt-2"])
-                  - elsif upload.image?
-                    = link_to(image_tag(upload, class: ["img-fluid"]), upload, target: "_blank")
-                    - if policy(report).remove_upload? && allow_editing
-                      = link_to('<i class="fas fa-times-circle"></i> Remove'.html_safe, remove_upload_report_url(upload), method: :delete, data: { confirm: 'Are you sure you want to remove this attachment?' }, class: ["btn", "btn-sm", "btn-danger", "text-uppercase", "font-weight-bold", "mx-0", "mb-0", "mt-2"])
-                  - else
-                    = link_to(upload.filename, rails_blob_path(upload, disposition: :inline), target: "_blank")
-                    - if policy(report).remove_upload? && allow_editing
-                      = link_to('<i class="fas fa-times-circle"></i> Remove'.html_safe, remove_upload_report_url(upload), method: :delete, data: { confirm: 'Are you sure you want to remove this attachment?' }, class: ["btn", "btn-sm", "btn-danger", "text-uppercase", "font-weight-bold", "mx-0", "mb-0", "mt-2"])
-  .col-12.col-md-6.order-2
+              - report.attachments.each do |attachment|
+                = render  partial: "attachments/attachment",
+                          object: attachment,
+                          locals: { allow_editing: allow_editing }
+  .col-12.col-md-7.order-2
     .card.bg-light.mt-3
       h6.card-header DMR Details
       .card-body.bg-white = simple_format(report.body)

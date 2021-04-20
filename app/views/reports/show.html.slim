@@ -1,7 +1,7 @@
 ruby:
   provide(:title, "DMR #{@report.dmr_number}")
 
-.d-md-flex.flex-row.align-items-center.justify-content-between.my-3
+.d-md-flex.flex-row.align-items-center.justify-content-between.mt-3
   h1 = "DMR #{@report.dmr_number}"
   .mt-2.mt-md-0
     = link_to '<i class="fas fa-list-alt"></i> All DMRs'.html_safe, root_url, class: ["btn", "btn-sm", "btn-primary", "vp-button"]

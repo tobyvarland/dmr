@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
 
+  resources :attachments, only: [:edit, :update, :destroy]
   resources :reports do
     collection do
       get     :monthly_report
     end
     member do
-      delete  :remove_upload
       post    :add_upload
     end
   end
