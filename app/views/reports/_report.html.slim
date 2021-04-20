@@ -1,0 +1,45 @@
+.row
+  .col-12.col-md-3.order-3.mt-3.mt-md-0
+    .card.bg-light
+      h6.card-header Attachments
+      - if policy(report).add_upload? && allow_editing
+        .card-body.p-0
+          = render 'attachment_form'
+      - unless report.uploads.count == 0
+        .card-body.bg-white.pt-0
+          .row
+            - report.uploads.each do |upload|
+              .col-12.col-md-4.mt-3
+                - if upload.variable?
+                  = link_to(image_tag(upload.variant(resize: "1000x1000", auto_orient: true), class: ["img-fluid", "border", "shadow-sm"]), rails_blob_path(upload, disposition: :inline), target: "_blank")
+                  - if policy(report).remove_upload? && allow_editing
+                    = link_to('<i class="fas fa-times-circle"></i> Remove'.html_safe, remove_upload_report_url(upload), method: :delete, data: { confirm: 'Are you sure you want to remove this attachment?' }, class: ["btn", "btn-sm", "btn-danger", "text-uppercase", "font-weight-bold", "mx-0", "mb-0", "mt-2"])
+                - elsif upload.previewable?
+                  = link_to(image_tag(upload.preview(resize: "1000x1000"), class: ["img-fluid", "border", "shadow-sm"]), rails_blob_path(upload, disposition: :inline), target: "_blank")
+                  - if policy(report).remove_upload? && allow_editing
+                    = link_to('<i class="fas fa-times-circle"></i> Remove'.html_safe, remove_upload_report_url(upload), method: :delete, data: { confirm: 'Are you sure you want to remove this attachment?' }, class: ["btn", "btn-sm", "btn-danger", "text-uppercase", "font-weight-bold", "mx-0", "mb-0", "mt-2"])
+                - elsif upload.image?
+                  = link_to(image_tag(upload, class: ["img-fluid", "border", "shadow-sm"]), upload, target: "_blank")
+                  - if policy(report).remove_upload? && allow_editing
+                    = link_to('<i class="fas fa-times-circle"></i> Remove'.html_safe, remove_upload_report_url(upload), method: :delete, data: { confirm: 'Are you sure you want to remove this attachment?' }, class: ["btn", "btn-sm", "btn-danger", "text-uppercase", "font-weight-bold", "mx-0", "mb-0", "mt-2"])
+                - else
+                  = link_to(upload.filename, rails_blob_path(upload, disposition: :inline), target: "_blank")
+                  - if policy(report).remove_upload? && allow_editing
+                    = link_to('<i class="fas fa-times-circle"></i> Remove'.html_safe, remove_upload_report_url(upload), method: :delete, data: { confirm: 'Are you sure you want to remove this attachment?' }, class: ["btn", "btn-sm", "btn-danger", "text-uppercase", "font-weight-bold", "mx-0", "mb-0", "mt-2"])
+  .col-12.col-md-6.order-2.mt-3.mt-md-0
+    .card.bg-light.mb-3
+      h6.card-header DMR Details
+      .card-body.bg-white = simple_format(report.body)
+  .col-12.col-md-3.order-1
+    = card_list "S.O. ##{report.shop_order}",
+                [{label: "Part Spec", value: report.part_spec.join(" <small class=\"text-uncolor\">/</small> ")},
+                 {label: "Customer Name", value: report.customer_name.join("<br>")},
+                 {label: "Part Name", value: report.part_name.join("<br>")},
+                 {label: "PO Numbers", value: report.purchase_order.join("<br>")}]
+    = card_list "DMR Details",
+                [{label: "Entered By", value: report.user.name},
+                 {label: "Date", value: report.sent_on.strftime("%m/%d/%Y")},
+                 {label: "Discovery", value: discovery_label(report.discovery_stage)},
+                 {label: "Parts Status", value: disposition_label(report.disposition)},
+                 {label: "Pounds", value: number_with_precision(report.pounds, strip_insignificant_zeros: true, precision: 2, delimiter: ",")},
+                 {label: "Pieces", value: number_with_delimiter(report.pieces)}]

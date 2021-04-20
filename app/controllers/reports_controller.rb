@@ -19,7 +19,16 @@ class ReportsController < ApplicationController
                 only: %i[ show edit update destroy add_upload ]
   
   # Don't require login for view only.
-  skip_before_action :authenticate_user!, only: [:show, :index]
+  skip_before_action :authenticate_user!, only: [:show, :index, :monthly_report]
+
+  def monthly_report
+    unless params.include?(:year) && params.include?(:month)
+      redirect_to monthly_report_url(year: Date.current.year, month: Date.current.month)
+      return
+    end
+    @month = "#{sprintf('%02i', params[:month])}/#{params[:year]}"
+    @reports = Report.for_monthly_report(params[:year], params[:month])
+  end
 
   def index
     params[:sorted_by] = 'newest' if params[:sorted_by].blank?

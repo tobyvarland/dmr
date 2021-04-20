@@ -126,6 +126,9 @@ class Report < ApplicationRecord
     return if value.blank?
     where(year: value)
   }
+  scope :for_monthly_report, ->(year, month) {
+    where("YEAR(`sent_on`) = ? AND MONTH(`sent_on`) = ?", year, month).order(:year, :number)
+  }
 
   # Instance methods.
   
