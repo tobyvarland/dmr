@@ -4,43 +4,43 @@
     |&nbsp;Filters
   .collapse.filter-form id="report-filters"
     = form_with method: 'get' do |f|
-      .row.mt-2
-        .col-12.col-md-3
+      .row
+        .col-12.col-md-3.mt-2
           label.form-label for="with_shop_order" Shop Order:
           = f.select "with_shop_order", options_for_select(field_options(@reports, :shop_order), params[:with_shop_order]), { include_blank: true }, class: "form-select form-select-sm countable-filter", onchange: 'this.form.submit();'
-        .col-12.col-md-3
+        .col-12.col-md-3.mt-2
           label.form-label for="with_customer" Customer:
           = f.select "with_customer", options_for_select(field_options(@reports, :customer_code), params[:with_customer]), { include_blank: true }, class: "form-select form-select-sm countable-filter", onchange: 'this.form.submit();'
-        .col-12.col-md-3
+        .col-12.col-md-3.mt-2
           label.form-label for="with_process" Process:
           = f.select "with_process", options_for_select(field_options(@reports, :process_code), params[:with_process]), { include_blank: true }, class: "form-select form-select-sm countable-filter", onchange: 'this.form.submit();'
-        .col-12.col-md-3
+        .col-12.col-md-3.mt-2
           label.form-label for="with_part" Part:
           = f.select "with_part", options_for_select(field_options(@reports, :part), params[:with_part]), { include_blank: true }, class: "form-select form-select-sm countable-filter", onchange: 'this.form.submit();'
-      .row.mt-2
-        .col-12.col-md-3
+      .row
+        .col-12.col-md-3.mt-2
           label.form-label for="with_year" Year:
           = f.select "with_year", options_for_select(field_options(@reports, :year), params[:with_year]), { include_blank: true }, class: "form-select form-select-sm countable-filter", onchange: 'this.form.submit();'
-        .col-12.col-md-3
+        .col-12.col-md-3.mt-2
           label.form-label for="entered_by" Entered By:
           = f.select "entered_by", options_for_select(user_options(@reports), params[:entered_by]), { include_blank: true }, class: "form-select form-select-sm countable-filter", onchange: 'this.form.submit();'
-        .col-12.col-md-3
+        .col-12.col-md-3.mt-2
           label.form-label for="with_discovery" Discovery:
           = f.select "with_discovery", options_for_select(discovery_options(@reports), params[:with_discovery]), { include_blank: true }, class: "form-select form-select-sm countable-filter", onchange: 'this.form.submit();'
-        .col-12.col-md-3
+        .col-12.col-md-3.mt-2
           label.form-label for="with_disposition" Parts Status:
           = f.select "with_disposition", options_for_select(disposition_options(@reports), params[:with_disposition]), { include_blank: true }, class: "form-select form-select-sm countable-filter", onchange: 'this.form.submit();'
-      .row.mt-2
-        .col-12.col-md-3
+      .row
+        .col-12.col-md-3.mt-2
           label.form-label for="on_or_after" Start Date:
           = f.date_field "on_or_after", class: "form-control form-control-sm countable-filter", value: params[:on_or_after], onchange: 'this.form.submit();'
-        .col-12.col-md-3
+        .col-12.col-md-3.mt-2
           label.form-label for="on_or_before" End Date:
           = f.date_field "on_or_before", class: "form-control form-control-sm countable-filter", value: params[:on_or_before], onchange: 'this.form.submit();'
-        .col-12.col-md-3
+        .col-12.col-md-3.mt-2
           label.form-label for="sorted_by" Sorted By:
           = f.select "sorted_by", options_for_select([["Shop Order", "shop_order"], ["Part Spec", "part_spec"], ["Oldest First", "oldest"], ["Newest First", "newest"]], params[:sorted_by]), {}, class: "form-select form-select-sm", onchange: 'this.form.submit();'
-      .row.mt-2
-        .col-12
+      .row
+        .col-12.mt-2
           label.form-label for="containing" Search:
           = f.text_field "containing", class: "form-control form-control-sm countable-filter", value: params[:containing], onchange: 'this.form.submit();'
