@@ -22,6 +22,16 @@ class User < ApplicationRecord
   validates :employee_number,
             numericality: { only_integer: true, greater_than: 0 }
 
+  # Instance methods.
+
+  # Updates user fields from System i.
+  def update_fields_from_system_i
+    json = User.system_i_json(self.email)
+    self.employee_number = json[:employee_number]
+    self.title = json[:title]
+    self.save
+  end
+
   # Class methods.
 
   # Method to create from Google authentication.
@@ -31,7 +41,8 @@ class User < ApplicationRecord
     user_attributes = {
       uid: uid,
       name: name,
-      employee_number: system_i[:employee_number]
+      employee_number: system_i[:employee_number],
+      title: system_i[:title]
     }
     create_with(user_attributes).find_or_create_by!(email: email)
   end
