@@ -41,4 +41,44 @@ module ApplicationHelper
     content_tag(:div, header + list, class: ["card", "bg-light", "mb-3"])
   end
 
+  # Return options for given field for collection of reports.
+  def field_options(reports, field)
+    return reports.except(:limit, :offset, :order).distinct.pluck(field).sort
+  end
+
+  # Return discovery stage options for collection of reports.
+  def discovery_options(reports)
+    raw = field_options(reports, :discovery_stage)
+    options = []
+    raw.each do |raw_value|
+      label = case raw_value
+              when "before" then "Before Processing"
+              when "during" then "During Processing"
+              when "after" then "After Processing"
+              end
+      options << [label, raw_value]
+    end
+    return options
+  end
+
+  # Return disposition options for collection of reports.
+  def disposition_options(reports)
+    raw = field_options(reports, :disposition)
+    options = []
+    raw.each do |raw_value|
+      label = case raw_value
+              when "unprocessed" then "Unprocessed"
+              when "partial" then "Partially Processed"
+              when "complete" then "Completely Processed"
+              end
+      options << [label, raw_value]
+    end
+    return options
+  end
+
+  # Return user options for collection of reports.
+  def user_options(reports)
+    return User.where("id IN (?)", field_options(reports, :user_id)).order(:employee_number).map {|u| ["#{u.employee_number} - #{u.name}", u.id]}
+  end
+
 end
