@@ -77,7 +77,7 @@ h1.my-3 = "DMR #{@report.dmr_number}"
             = form.label :body, "Details:", class: "form-label"
             = form.text_area :body, class: "form-control", rows: 15, required: true
 
-      .d-flex.flex-row.align-items-center.justify-content-end
+      .d-flex.flex-row.align-items-center.justify-content-end.mt-3.mt-md-0
         - if @report.body.blank?
           = link_to '<i class="fas fa-times"></i> Cancel'.html_safe, @report, method: :delete, class: ["btn", "btn-light", "btn-sm", "me-1", "vp-button"], tabindex: -1
         - else
