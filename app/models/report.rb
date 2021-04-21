@@ -123,7 +123,7 @@ class Report < ApplicationRecord
     where(year: value)
   }
   scope :for_monthly_report, ->(year, month) {
-    where("YEAR(`sent_on`) = ? AND MONTH(`sent_on`) = ?", year, month).order(:year, :number)
+    where("YEAR(`sent_on`) = ? AND MONTH(`sent_on`) = ?", year, month).order(:customer_code, :year, :number)
   }
 
   # Instance methods.

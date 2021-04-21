@@ -126,3 +126,31 @@ legend {
 .accordion-button {
   font-size: 1.5rem;
 }
+
+.card-header-pills {
+  .nav-link {
+    color: #000 !important;
+    font-size: 1rem;
+    text-decoration: none !important;
+    &.active {
+      color: #fff !important;
+    }
+    span {
+      text-decoration: none !important;
+    }
+  }
+}
+
+.card-header-tabs {
+  .nav-link {
+    color: #000 !important;
+    .count {
+      background-color: #ffc107;
+      border-radius: 1rem;
+      font-size: 1.25rem;
+      line-height: 1;
+      margin-left: 0.5rem;
+      padding: 0.25rem 0.5rem;
+    }
+  }
+}

@@ -30,6 +30,32 @@ document.addEventListener("DOMContentLoaded", function(event) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
   });
 
+  // Handle customer selection on monthly report.
+  $(document).on("show.bs.tab", function(event) {
+
+    // Reference button just clicked and button previously clicked.
+    var $currentButton = $(event.target);
+    var $previousButton = $(event.relatedTarget);
+
+    // If not a customer selection button, exit handler.
+    if (!$currentButton.hasClass("customer-selector")) return;
+
+    // Reference DMR list for each button.
+    var $currentDMRList = $($currentButton.data("bs-target"));
+    var $previousDMRList = $($previousButton.data("bs-target"));
+
+    // Hide all DMRs from previous customer.
+    $previousDMRList.find('.nav-link').each(function() {
+      $(this).removeClass("active");
+      var $target = $($(this).data("bs-target"));
+      $target.removeClass("show").removeClass("active");
+    });
+
+    // Show first DMR for current customer.
+    $currentDMRList.find('.nav-link').first().trigger("click");
+    
+  });
+
   // Count applied filters for filter form.
   $(".filter-form").each(function() {
     var $form = $(this);

@@ -1,6 +1,15 @@
 ruby:
   provide(:title, "Monthly DMR Report for #{@month}")
 
+ruby:
+  counts = {}
+  @customers.each do |customer|
+    counts[customer.to_sym] = 0
+  end
+  @reports.each do |report|
+    counts[report.customer_code.to_sym] += 1
+  end
+
 .d-md-flex.flex-row.align-items-center.justify-content-between.my-3
   h1 = "Monthly DMR Report for #{@month}"
   - unless @reports.length == 0
@@ -12,12 +21,23 @@ ruby:
 
 - else
 
-  .accordion.mb-3 id="reportsAccordion"
-    - @reports.each do |report|
-      .accordion-item
-        h2.accordion-header id="report-#{report.id}"
-          button.accordion-button.collapsed type="button" data-bs-toggle="collapse" data-bs-target="#report-body-#{report.id}" aria-expanded="false" aria-controls="report-body-#{report.id}"
-            = report.dmr_number.html_safe
-        .accordion-collapse.collapse id="report-body-#{report.id}" aria-labelledby="report-#{report.id}" data-bs-parent="#reportsAccordion"
-          .accordion-body.pt-0.px-3
-            = render partial: "report", object: report, locals: { allow_editing: false }
+  .card.mb-3
+    .card-header
+      ul.nav.nav-tabs.card-header-tabs
+        - @customers.each_with_index do |customer, index|
+          li.nav-item
+            button.nav-link.d-flex.flex-row.align-items-center.justify-content-start.customer-selector class="#{index == 0 ? "active" : ""}" data-bs-toggle="tab" data-bs-target="##{customer}" type="button"
+              div = customer
+              .count = counts[customer.to_sym]
+    .tab-content.border-bottom
+      - @customers.each_with_index do |customer, index|
+        .tab-pane.card-body.fade class="#{index == 0 ? "show active" : ""}" id="#{customer}"
+          ul.nav.nav-pills.card-header-pills
+            - @reports.each_with_index do |report, index|
+              - next unless report.customer_code == customer
+              li.nav-item
+                button.nav-link class="#{index == 0 ? "active" : ""}" data-bs-toggle="tab" data-bs-target="#report-body-#{report.id}" type="button" = report.dmr_number.html_safe
+    .tab-content
+      - @reports.each_with_index do |report, index|
+        .tab-pane.card-body.fade.py-0 class="#{index == 0 ? "show active" : ""}" id="report-body-#{report.id}"
+          = render partial: "report", object: report, locals: { allow_editing: false }

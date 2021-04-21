@@ -28,6 +28,7 @@ class ReportsController < ApplicationController
     end
     @month = "#{sprintf('%02i', params[:month])}/#{params[:year]}"
     @reports = Report.for_monthly_report(params[:year], params[:month])
+    @customers = @reports.except(:order).distinct.pluck(:customer_code).sort
   end
 
   def index
