@@ -26,12 +26,12 @@ ruby:
       ul.nav.nav-tabs.card-header-tabs
         - @customers.each_with_index do |customer, index|
           li.nav-item
-            button.nav-link.d-flex.flex-row.align-items-center.justify-content-start.customer-selector class="#{index == 0 ? "active" : ""}" data-bs-toggle="tab" data-bs-target="##{customer}" type="button"
+            button.nav-link.d-flex.flex-row.align-items-center.justify-content-start.customer-selector class="#{index == 0 ? "active" : ""}" data-bs-toggle="tab" data-bs-target="#customer-#{customer}" type="button"
               div = customer
               .count = counts[customer.to_sym]
     .tab-content.border-bottom
       - @customers.each_with_index do |customer, index|
-        .tab-pane.card-body.fade class="#{index == 0 ? "show active" : ""}" id="#{customer}"
+        .tab-pane.card-body.fade class="#{index == 0 ? "show active" : ""}" id="customer-#{customer}"
           ul.nav.nav-pills.card-header-pills
             - @reports.each_with_index do |report, index|
               - next unless report.customer_code == customer
