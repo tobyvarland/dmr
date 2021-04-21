@@ -1,5 +1,8 @@
 ruby:
   provide(:title, "Monthly DMR Report for #{@month}")
+  report_date = Date.new(params[:year].to_i, params[:month].to_i, 1)
+  previous_month = report_date - 1.month
+  next_month = report_date + 1.month
 
 ruby:
   counts = {}
@@ -14,6 +17,11 @@ ruby:
   h1 = "Monthly DMR Report for #{@month}"
   - unless @reports.length == 0
     .fw-bold.small = "#{pluralize(@reports.length, "DMR")}"
+  div
+    - unless previous_month.year < 2021
+      = link_to "<i class=\"fas fa-angle-double-left\"></i> #{previous_month.strftime("%m/%Y")}".html_safe, monthly_report_path(year: previous_month.year, month: previous_month.month), class: ["btn", "btn-sm", "vp-button", "btn-primary"]
+    - unless next_month.month > Date.current.month
+      = link_to "#{next_month.strftime("%m/%Y")} <i class=\"fas fa-angle-double-right\"></i>".html_safe, monthly_report_path(year: next_month.year, month: next_month.month), class: ["btn", "btn-sm", "vp-button", "btn-primary", "ms-3"]
 
 - if @reports.length == 0
 
