@@ -17,6 +17,11 @@ html lang="en"
     meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
     meta name="format-detection" content="telephone=no"
 
+    meta name="apple-mobile-web-app-capable" content="yes"
+    meta name="apple-mobile-web-app-status-bar-style" content="black"
+    meta name="apple-mobile-web-app-title" content="DMR"
+    = favicon_link_tag asset_path('web-app-icon.png'), rel: 'apple-touch-icon', type: 'image/png'
+
     = stylesheet_pack_tag('application', media: 'all', 'data-turbolinks-track': 'reload')
     = javascript_pack_tag('application', 'data-turbolinks-track': 'reload')
 
