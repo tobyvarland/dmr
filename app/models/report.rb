@@ -134,8 +134,12 @@ class Report < ApplicationRecord
   end
 
   # Returns DMR number (year & number).
-  def dmr_number
-    return "#{self.year}-#{sprintf('%04i', self.number)}"
+  def dmr_number(plain = false)
+    if plain
+      return "#{self.year}-#{sprintf('%04i', self.number)}"
+    else
+      return "#{self.year}<span>-</span>#{sprintf('%04i', self.number)}"
+    end
   end
 
   # Returns part spec fields.

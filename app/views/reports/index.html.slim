@@ -26,7 +26,7 @@ ruby:
       tbody
         - @reports.each do |report|
           tr
-            td.text-center.text-nowrap = report.dmr_number
+            td.text-center.text-nowrap = report.dmr_number.html_safe
             td.text-center.text-nowrap = report.shop_order
             td.text-nowrap = report.part_spec.join(" <small class=\"text-uncolor\">/</small> ").html_safe
             td = simple_format(truncate(report.body.split(/(\r?\n){2}/)[0], length: 80, separator: ' '))

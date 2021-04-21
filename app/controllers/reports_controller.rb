@@ -55,7 +55,7 @@ class ReportsController < ApplicationController
         end
         if count_pdf_attachments == 0
           send_data(dmr_pdf.render,
-                    filename: "#{@report.dmr_number}.pdf",
+                    filename: "#{@report.dmr_number(true)}.pdf",
                     type: 'application/pdf',
                     disposition: 'inline')
         else
@@ -64,7 +64,7 @@ class ReportsController < ApplicationController
             combined << CombinePDF.load(path)
           end
           send_data(combined.to_pdf,
-                    filename: "#{@report.dmr_number}.pdf",
+                    filename: "#{@report.dmr_number(true)}.pdf",
                     type: 'application/pdf',
                     disposition: 'inline')
         end

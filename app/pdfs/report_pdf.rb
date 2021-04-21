@@ -222,7 +222,7 @@ class ReportPdf < Prawn::Document
 
     # Draw DMR number and date.
     self.repeat(:all) do
-      self.txtb("DEFECTIVE MATERIAL REPORT: #{@dmr.dmr_number}", 0.25, 9.5, 8, 0.4, style: :bold, size: 18, h_align: :center, v_align: :bottom)
+      self.txtb("DEFECTIVE MATERIAL REPORT: #{@dmr.dmr_number(true)}", 0.25, 9.5, 8, 0.4, style: :bold, size: 18, h_align: :center, v_align: :bottom)
       self.txtb("Date: #{@dmr.sent_on.strftime("%m/%d/%Y")}", 0.25, 9.1, 8, 0.25, style: :bold, size: 10, h_align: :center, v_align: :top)
     end
 

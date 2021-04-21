@@ -17,7 +17,7 @@ ruby:
       .accordion-item
         h2.accordion-header id="report-#{report.id}"
           button.accordion-button.collapsed type="button" data-bs-toggle="collapse" data-bs-target="#report-body-#{report.id}" aria-expanded="false" aria-controls="report-body-#{report.id}"
-            = report.dmr_number
+            = report.dmr_number.html_safe
         .accordion-collapse.collapse id="report-body-#{report.id}" aria-labelledby="report-#{report.id}" data-bs-parent="#reportsAccordion"
           .accordion-body.pt-0.px-3
             = render partial: "report", object: report, locals: { allow_editing: false }
