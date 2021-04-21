@@ -208,14 +208,14 @@ class ReportPdf < Prawn::Document
       next if attachment.file.content_type == 'application/pdf'
       this_image_height = max_image_height
       self.start_new_page
-      self.txtb(attachment.name, 0.5, 8.75, 7.5, 0.25, size: 14, h_align: :center)
+      self.txtb(attachment.name, 0.5, attachment.description.blank? ? 0.75 : 1.35, 7.5, 0.25, size: 14, h_align: :center)
       if attachment.description.blank?
         this_image_height += 0.6
       else
-        self.txtb(attachment.description, 0.5, 8.4, 7.5, 0.5, style: :italic, size: 10, h_align: :center, v_align: :top)
+        self.txtb(attachment.description, 0.5, 1, 7.5, 0.5, style: :italic, size: 10, h_align: :center, v_align: :top)
       end
       image = self.get_image(attachment.file, max_image_width, this_image_height)
-      self.bounding_box([(0.5 + ((max_image_width - image[:width]) / 2.0)).in, ((this_image_height + 0.5) - ((this_image_height - image[:height]) / 2.0)).in], width: image[:width].in, height: image[:height].in) do
+      self.bounding_box([(0.5 + ((max_image_width - image[:width]) / 2.0)).in, (8.75 - ((this_image_height - image[:height]) / 2.0)).in], width: image[:width].in, height: image[:height].in) do
         self.image(image[:path], fit: [image[:width].in, image[:height].in])
       end
     end
