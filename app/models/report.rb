@@ -4,9 +4,6 @@ class Report < ApplicationRecord
   include Discard::Model
   self.discard_column = :deleted_at
 
-  # Allow uploads.
-  has_many_attached :uploads
-
   # Serialization.
   serialize :part_name
   serialize :customer_name
@@ -59,8 +56,6 @@ class Report < ApplicationRecord
   validates :disposition,
             presence: true,
             on: :update
-  validates :uploads,
-            blob: { content_type: ['image/png', 'image/jpg', 'image/jpeg', 'application/pdf'] }
 
   # Callbacks.
   before_create     :set_report_date

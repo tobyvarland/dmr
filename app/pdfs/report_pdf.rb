@@ -202,11 +202,20 @@ class ReportPdf < Prawn::Document
     end
 
     # Add attachments.
-    @dmr.uploads.each do |file|
-      next if file.content_type == 'application/pdf'
+    max_image_width = 7.5
+    max_image_height = 7.3
+    @dmr.attachments.each do |attachment|
+      next if attachment.file.content_type == 'application/pdf'
+      this_image_height = max_image_height
       self.start_new_page
-      image = self.get_image(file)
-      self.bounding_box([(0.5 + ((7.5 - image[:width]) / 2.0)).in, (8.5 - ((8 - image[:height]) / 2.0)).in], width: image[:width].in, height: image[:height].in) do
+      self.txtb(attachment.name, 0.5, 8.75, 7.5, 0.25, size: 14, h_align: :center)
+      if attachment.description.blank?
+        this_image_height += 0.6
+      else
+        self.txtb(attachment.description, 0.5, 8.4, 7.5, 0.5, style: :italic, size: 10, h_align: :center, v_align: :top)
+      end
+      image = self.get_image(attachment.file, max_image_width, this_image_height)
+      self.bounding_box([(0.5 + ((max_image_width - image[:width]) / 2.0)).in, ((this_image_height + 0.5) - ((this_image_height - image[:height]) / 2.0)).in], width: image[:width].in, height: image[:height].in) do
         self.image(image[:path], fit: [image[:width].in, image[:height].in])
       end
     end
@@ -220,10 +229,12 @@ class ReportPdf < Prawn::Document
   end
 
   # Reads image data and auto-orients image if necessary.
-  def get_image(file)
+  def get_image(file, max_width, max_height)
+    max_width_pixels = max_width * 300
+    max_height_pixels = max_height * 300
     magick = MiniMagick::Image.read(file.download)
     magick.auto_orient
-    magick.resize("2250x2400") if magick.height > 2400 || magick.width > 2250
+    magick.resize("#{max_width_pixels}x#{max_height_pixels}") if magick.height > max_height_pixels || magick.width > max_width_pixels
     temp_path = "#{Dir.tmpdir}/#{SecureRandom.alphanumeric(50)}"
     magick.write(temp_path)
     return { path: temp_path, height: magick.height / 300.0, width: magick.width / 300.0 }

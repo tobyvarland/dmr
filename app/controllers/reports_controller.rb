@@ -48,10 +48,10 @@ class ReportsController < ApplicationController
         dmr_pdf = ReportPdf.new(@report)
         count_pdf_attachments = 0
         files_to_combine = []
-        @report.uploads.each do |file|
-          next unless file.content_type == 'application/pdf'
+        @report.attachments.each do |attachment|
+          next unless attachment.file.content_type == 'application/pdf'
           count_pdf_attachments += 1
-          files_to_combine << ActiveStorage::Blob.service.path_for(file.key)
+          files_to_combine << ActiveStorage::Blob.service.path_for(attachment.file.key)
         end
         if count_pdf_attachments == 0
           send_data(dmr_pdf.render,
@@ -110,7 +110,7 @@ class ReportsController < ApplicationController
     authorize @report
     params[:uploads].each do |upload|
       attachment = @report.attachments.new
-      attachment.file = upload
+      attachment.file.attach(upload)
       attachment.save
     end
     redirect_to(@report)
